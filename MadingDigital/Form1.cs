@@ -82,7 +82,8 @@ namespace MadingDigital
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            TampilkanData();
+            HitungTotal();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -113,6 +114,24 @@ namespace MadingDigital
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+                    
+                textBox1.Text = row.Cells[0].Value.ToString();
+                textBox3.Text = row.Cells[1].Value.ToString();
+                richTextBox1.Text = row.Cells[2].Value.ToString();
+                comboBox1.Text = row.Cells[3].Value.ToString();
+                dtpTanggal.Value = Convert.ToDateTime(row.Cells[4].Value);
+            }
+            catch (Exception)
+            {
+                
+            }
         }
     }
 }
