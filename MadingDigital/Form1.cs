@@ -49,7 +49,33 @@ namespace MadingDigital
             }
         }
 
+        public void HitungTotal()
+        {
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
 
+            try
+            {
+                conn.Open();
+                // Query Count
+                string query = "SELECT COUNT(*) FROM pengumuman";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                // ExecuteScalar digunakan karena hasil query hanya satu nilai (angka)
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // Tampilkan ke label yang sudah kamu buat di layout
+                lblTotal.Text = "Total Pengumuman: " + total.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal menghitung data: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         public Form1()
         {
