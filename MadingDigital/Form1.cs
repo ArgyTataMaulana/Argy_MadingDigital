@@ -75,6 +75,21 @@ namespace MadingDigital
             }
         }
 
+        private void BersihkanForm()
+        {
+            textBox1.Clear();
+            textBox3.Clear();
+            richTextBox1.Clear();
+            comboBox1.SelectedIndex = -1; // Mengosongkan pilihan ComboBox
+            dtpTanggal.Value = DateTime.Now; // Reset tanggal ke hari ini
+        }
+
+        // Panggil di event Klik tombol Bersihkan
+        private void btnBersihkan_Click(object sender, EventArgs e)
+        {
+            BersihkanForm();
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -213,6 +228,11 @@ namespace MadingDigital
                     conn.Close();
                 }
             }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            BersihkanForm();
         }
     }
 }
