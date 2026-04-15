@@ -285,5 +285,32 @@ namespace MadingDigital
                 conn.Close();
             }
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
+            try
+            {
+                conn.Open();
+                // Mencari judul yang mirip dengan isi txtCari
+                string query = "SELECT * FROM pengumuman WHERE judul LIKE @cari";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@cari", "%" + textBox2.Text + "%");
+
+                MySqlDataReader dr = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+                dataGridView1.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

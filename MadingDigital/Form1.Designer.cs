@@ -234,9 +234,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(37, 138);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 21);
+            this.label2.Size = new System.Drawing.Size(54, 21);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Nama :";
+            this.label2.Text = "Judul :";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
@@ -301,6 +301,7 @@
             this.btnSearch.TabIndex = 19;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // textBox2
             // 
