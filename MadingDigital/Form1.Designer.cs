@@ -170,6 +170,7 @@
             this.btnUbah.TabIndex = 17;
             this.btnUbah.Text = "Ubah";
             this.btnUbah.UseVisualStyleBackColor = true;
+            this.btnUbah.Click += new System.EventHandler(this.btnUbah_Click);
             // 
             // button4
             // 

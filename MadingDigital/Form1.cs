@@ -133,5 +133,43 @@ namespace MadingDigital
                 
             }
         }
+
+        private void btnUbah_Click(object sender, EventArgs e)
+        {
+            // 1. Konfirmasi sebelum ubah (Syarat F.5)
+            DialogResult dialogResult = MessageBox.Show("Apakah Anda yakin ingin mengubah data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                Koneksi kon = new Koneksi();
+                MySqlConnection conn = kon.GetConn();
+                try
+                {
+                    conn.Open();
+                    // Query UPDATE berdasarkan ID
+                    string query = "UPDATE pengumuman SET judul=@judul, isi_pengumuman=@isi, status=@status, tanggal_upload=@tgl WHERE id_pengumuman=@id";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                    cmd.Parameters.AddWithValue("@judul", textBox1.Text);
+                    cmd.Parameters.AddWithValue("@isi", richTextBox1.Text);
+                    cmd.Parameters.AddWithValue("@status", comboBox1.Text);
+                    cmd.Parameters.AddWithValue("@tgl", dtpTanggal.Value);
+                    cmd.Parameters.AddWithValue("@id", textBox1.Text);
+
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Data Berhasil Diperbarui!");
+
+                    TampilkanData(); // Refresh tabel
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal Update: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
     }
 }
