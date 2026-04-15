@@ -234,5 +234,56 @@ namespace MadingDigital
         {
             BersihkanForm();
         }
+
+        private void btnSimpan_Click(object sender, EventArgs e)
+        {
+            if (textBox3.Text == "" || richTextBox1.Text == "" || comboBox1.Text == "")
+            {
+                MessageBox.Show("Data belum lengkap! Harap isi Judul, Isi, dan Status.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Inisialisasi Koneksi
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
+
+            try
+            {
+                conn.Open();
+
+              
+                string query = "INSERT INTO pengumuman (judul, isi_pengumuman, tanggal_upload, status, id_admin) " +
+                               "VALUES (@judul, @isi, @tgl, @status, @admin)";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                // 4. Menggunakan Parameter agar aman dan rapi
+                cmd.Parameters.AddWithValue("@judul", textBox3.Text);
+                cmd.Parameters.AddWithValue("@isi", richTextBox1.Text);
+                cmd.Parameters.AddWithValue("@tgl", dtpTanggal.Value);
+                cmd.Parameters.AddWithValue("@status", comboBox1.Text);
+                cmd.Parameters.AddWithValue("@admin", 1); // ID admin default
+
+                // 5. Eksekusi Query 
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Data Pengumuman Berhasil Disimpan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 6. Refresh Tampilan & Hitung Total Otomatis
+                TampilkanData();
+                HitungTotal();
+
+                // 7. Bersihkan Form 
+                BersihkanForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal menyimpan data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }
