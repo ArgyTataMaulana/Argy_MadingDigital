@@ -13,7 +13,7 @@ namespace MadingDigital
         public MySqlConnection GetConn()
         {
             // untuk menghubungkan ke database
-            string connString = "server=localhost;database=madingDigital;uid=root;pwd=Satoru12345;";
+            string connString = "server=localhost;database=madingDigital_DB;uid=root;pwd=Satoru12345;";
             MySqlConnection conn = new MySqlConnection(connString);
             return conn;
         }

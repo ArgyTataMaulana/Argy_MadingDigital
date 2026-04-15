@@ -136,7 +136,7 @@ namespace MadingDigital
 
         private void btnUbah_Click(object sender, EventArgs e)
         {
-            // 1. Konfirmasi sebelum ubah (Syarat F.5)
+            // 1. Konfirmasi sebelum ubah 
             DialogResult dialogResult = MessageBox.Show("Apakah Anda yakin ingin mengubah data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
@@ -164,6 +164,49 @@ namespace MadingDigital
                 catch (Exception ex)
                 {
                     MessageBox.Show("Gagal Update: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnHapus_Click(object sender, EventArgs e)
+        {
+            // 1. Validasi: Pastikan ada data yang dipilih (ID tidak kosong)
+            if (textBox1.Text == "")
+            {
+                MessageBox.Show("Pilih data yang ingin dihapus terlebih dahulu dari tabel!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Konfirmasi Hapus 
+            DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin menghapus pengumuman ini?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dr == DialogResult.Yes)
+            {
+                Koneksi kon = new Koneksi();
+                MySqlConnection conn = kon.GetConn();
+                try
+                {
+                    conn.Open();
+                    // Query DELETE menggunakan parameter ID
+                    string query = "DELETE FROM pengumuman WHERE id_pengumuman = @id";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", textBox1.Text);
+
+                    cmd.ExecuteNonQuery(); // Menjalankan perintah hapus
+                    MessageBox.Show("Data Berhasil Dihapus", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // 3. Refresh tampilan
+                    TampilkanData();
+                    HitungTotal();
+                    BersihkanForm(); // Method untuk mengosongkan textbox
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal Hapus: " + ex.Message);
                 }
                 finally
                 {
