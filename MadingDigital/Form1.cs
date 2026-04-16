@@ -312,5 +312,15 @@ namespace MadingDigital
                 conn.Close();
             }
         }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            TampilkanData(); // Menampilkan semua data lagi
+            HitungTotal();   // Mengupdate label total data
+            textBox2.Clear(); // Mengosongkan kotak pencarian agar bersih
+
+            MessageBox.Show("Daftar data telah di-reset ke semula.", "Informasi");
+
+        }
     }
 }

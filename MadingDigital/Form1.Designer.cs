@@ -292,6 +292,7 @@
             this.btnRefresh.TabIndex = 20;
             this.btnRefresh.Text = "Tampilkan Semua Data";
             this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnSearch
             // 
