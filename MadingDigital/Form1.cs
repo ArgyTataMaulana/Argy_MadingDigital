@@ -361,5 +361,20 @@ namespace MadingDigital
             dataGridView1.DataSource = dt; // Tabel berganti isi jadi riwayat
             conn.Close();
         }
+
+        private void btnPilihGambar_Click(object sender, EventArgs e)
+        {
+            // Filter agar hanya file gambar yang bisa dipilih
+            openFileDialog1.Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // Menampilkan preview gambar di PictureBox
+                pbMading.Image = new Bitmap(openFileDialog1.FileName);
+
+                // Simpan alamat file di properti 'Tag' agar mudah dipanggil saat upload
+                pbMading.Tag = openFileDialog1.FileName;
+            }
+        }
     }
 }

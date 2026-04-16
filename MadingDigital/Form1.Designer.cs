@@ -54,9 +54,16 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.btnRiwayat = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbMading = new System.Windows.Forms.PictureBox();
+            this.btnPilihGambar = new System.Windows.Forms.Button();
+            this.btnUploadGambar = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMading)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -336,6 +343,46 @@
             this.btnRiwayat.UseVisualStyleBackColor = true;
             this.btnRiwayat.Click += new System.EventHandler(this.button2_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(-23, -46);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pbMading
+            // 
+            this.pbMading.Location = new System.Drawing.Point(621, 416);
+            this.pbMading.Name = "pbMading";
+            this.pbMading.Size = new System.Drawing.Size(353, 93);
+            this.pbMading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbMading.TabIndex = 14;
+            this.pbMading.TabStop = false;
+            // 
+            // btnPilihGambar
+            // 
+            this.btnPilihGambar.Location = new System.Drawing.Point(1043, 416);
+            this.btnPilihGambar.Name = "btnPilihGambar";
+            this.btnPilihGambar.Size = new System.Drawing.Size(139, 29);
+            this.btnPilihGambar.TabIndex = 24;
+            this.btnPilihGambar.Text = "Pilih Gambar";
+            this.btnPilihGambar.UseVisualStyleBackColor = true;
+            this.btnPilihGambar.Click += new System.EventHandler(this.btnPilihGambar_Click);
+            // 
+            // btnUploadGambar
+            // 
+            this.btnUploadGambar.Location = new System.Drawing.Point(1043, 476);
+            this.btnUploadGambar.Name = "btnUploadGambar";
+            this.btnUploadGambar.Size = new System.Drawing.Size(139, 29);
+            this.btnUploadGambar.TabIndex = 25;
+            this.btnUploadGambar.Text = "Upload Gambar";
+            this.btnUploadGambar.UseVisualStyleBackColor = true;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -343,6 +390,10 @@
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImage = global::MadingDigital.Properties.Resources._07211b078ab5e9f537a3daeccef72279;
             this.ClientSize = new System.Drawing.Size(1220, 657);
+            this.Controls.Add(this.btnUploadGambar);
+            this.Controls.Add(this.btnPilihGambar);
+            this.Controls.Add(this.pbMading);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.judulLabel);
@@ -354,6 +405,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -387,6 +440,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnRiwayat;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbMading;
+        private System.Windows.Forms.Button btnPilihGambar;
+        private System.Windows.Forms.Button btnUploadGambar;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 
