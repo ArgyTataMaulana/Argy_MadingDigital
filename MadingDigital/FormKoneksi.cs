@@ -67,5 +67,14 @@ namespace MadingDigital
         }
 
         
+        private void btnLanjut_Click(object sender, EventArgs e)
+        {
+            // Buka Form Utama (CRUD)
+            Form1 formUtama = new Form1();
+            formUtama.Show();
+
+            // Sembunyikan Form 
+            this.Hide();
+        }
     }
 }
