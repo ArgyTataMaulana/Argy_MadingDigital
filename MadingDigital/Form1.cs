@@ -322,5 +322,36 @@ namespace MadingDigital
             MessageBox.Show("Daftar data telah di-reset ke semula.", "Informasi");
 
         }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", FileName = "Laporan_Mading.csv" };
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string csv = "";
+                    foreach (DataGridViewColumn col in dataGridView1.Columns) csv += col.HeaderText + ",";
+                    csv += "\n";
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        foreach (DataGridViewCell cell in row.Cells) csv += cell.Value?.ToString() + ",";
+                        csv += "\n";
+                    }
+                    System.IO.File.WriteAllText(sfd.FileName, csv);
+                    MessageBox.Show("Laporan Berhasil Diunduh!");
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
