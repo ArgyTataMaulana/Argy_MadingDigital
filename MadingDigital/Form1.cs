@@ -351,7 +351,15 @@ namespace MadingDigital
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            // Jalankan query ke tabel riwayat_upload
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM riwayat_upload", conn);
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            dataGridView1.DataSource = dt; // Tabel berganti isi jadi riwayat
+            conn.Close();
         }
     }
 }
