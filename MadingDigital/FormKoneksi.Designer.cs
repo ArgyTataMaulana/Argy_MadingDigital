@@ -60,6 +60,7 @@
             this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Cek Koneksi Ke Database";
             this.btnConnect.UseVisualStyleBackColor = false;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // label2
             // 
@@ -129,6 +130,7 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "Masuk Ke Aplikasi ->";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormKoneksi
             // 

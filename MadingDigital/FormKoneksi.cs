@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace MadingDigital
 {
@@ -26,5 +27,28 @@ namespace MadingDigital
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
+
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+               
+            }
+            
+        }
+
+        
     }
 }
