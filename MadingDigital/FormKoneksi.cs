@@ -40,11 +40,25 @@ namespace MadingDigital
 
             try
             {
-                
+                lblStatus.Text = "Menghubungkan...";
+                conn.Open();
+
+                if (conn.State == ConnectionState.Open)
+                {
+                    lblStatus.Text = "Status: TERHUBUNG!";
+                    lblStatus.ForeColor = Color.Green;
+
+                    // AKTIFKAN tombol masuk jika sukses
+                    button1.Enabled = true;
+
+                    MessageBox.Show("Koneksi ke Database MySQL Berhasil!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
-               
+                lblStatus.Text = "Status: GAGAL TERHUBUNG";
+                lblStatus.ForeColor = Color.Red;
+                MessageBox.Show("Koneksi Gagal! Pastikan XAMPP (MySQL) sudah aktif.\nError: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }
