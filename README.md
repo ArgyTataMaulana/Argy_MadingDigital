@@ -9,7 +9,9 @@ Screenshot hasil menjalankan sistem (File ReadMe) :
 
 • Bukti insert, update, delete, dan search
 <img width="1203" height="684" alt="image" src="https://github.com/user-attachments/assets/377605fe-2bce-4a53-8d93-817af79a3cdf" />
-<img width="1203" height="684" alt="image" src="https://github.com/user-attachments/assets/72d75965-b42e-408b-b8de-005e3992cefa" />
+<img width="1202" height="681" alt="image" src="https://github.com/user-attachments/assets/fe3477fb-4be7-44db-ade7-e905542d320b" />
+
+
 <img width="1209" height="671" alt="image" src="https://github.com/user-attachments/assets/0000c236-d2b1-40c5-8ead-22dda84e626a" />
 
 
