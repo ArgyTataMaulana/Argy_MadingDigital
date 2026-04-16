@@ -60,7 +60,10 @@ namespace MadingDigital
                 lblStatus.ForeColor = Color.Red;
                 MessageBox.Show("Koneksi Gagal! Pastikan XAMPP (MySQL) sudah aktif.\nError: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+            finally
+            {
+                conn.Close();
+            }
         }
 
         
