@@ -376,5 +376,54 @@ namespace MadingDigital
                 pbMading.Tag = openFileDialog1.FileName;
             }
         }
+
+        private void btnUploadGambar_Click(object sender, EventArgs e)
+        {
+            // Cek apakah sudah pilih gambar
+            if (pbMading.Tag == null)
+            {
+                MessageBox.Show("Silakan pilih gambar terlebih dahulu!", "Peringatan");
+                return;
+            }
+
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
+
+            try
+            {
+                conn.Open();
+
+                // Ambil path lengkap dari Tag
+                string pathLengkap = pbMading.Tag.ToString();
+                // Ambil nama filenya saja (misal: poster.jpg)
+                string namaFile = System.IO.Path.GetFileName(pathLengkap);
+
+                // Query INSERT ke tabel gambar_mading
+                string query = "INSERT INTO gambar_mading (nama_file, path_file, tanggal_upload, id_admin) " +
+                               "VALUES (@nama, @path, @tgl, @admin)";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@nama", namaFile);
+                cmd.Parameters.AddWithValue("@path", pathLengkap);
+                cmd.Parameters.AddWithValue("@tgl", DateTime.Now);
+                cmd.Parameters.AddWithValue("@admin", 1); // Default admin ID
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Gambar Mading Berhasil Terdaftar di Sistem!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Reset preview setelah sukses
+                pbMading.Image = null;
+                pbMading.Tag = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal Upload: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

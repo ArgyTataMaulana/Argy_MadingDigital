@@ -378,6 +378,7 @@
             this.btnUploadGambar.TabIndex = 25;
             this.btnUploadGambar.Text = "Upload Gambar";
             this.btnUploadGambar.UseVisualStyleBackColor = true;
+            this.btnUploadGambar.Click += new System.EventHandler(this.btnUploadGambar_Click);
             // 
             // openFileDialog1
             // 
