@@ -18,30 +18,21 @@ namespace MadingDigital
         {
             Koneksi kon = new Koneksi();
             MySqlConnection conn = kon.GetConn();
-
             try
             {
                 conn.Open();
-                string query = "SELECT id_pengumuman, judul, isi_pengumuman, status, tanggal_upload FROM pengumuman";
+                // Memanggil VIEW sebagai pengganti query select dasar
+                string query = "SELECT * FROM v_tampil_pengumuman";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader dr = cmd.ExecuteReader();
 
                 DataTable dt = new DataTable();
                 dt.Load(dr);
-
-                
                 dataGridView1.DataSource = dt;
-
-                
-                dataGridView1.Columns[0].HeaderText = "ID";
-                dataGridView1.Columns[1].HeaderText = "Judul";
-                dataGridView1.Columns[2].HeaderText = "Isi Pengumuman";
-                dataGridView1.Columns[3].HeaderText = "Status";
-                dataGridView1.Columns[4].HeaderText = "Tanggal";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal menampilkan data: " + ex.Message);
+                MessageBox.Show("Gagal Load VIEW: " + ex.Message);
             }
             finally
             {
