@@ -29,6 +29,10 @@ namespace MadingDigital
 
                 // 1. Masukkan DataTable ke BindingSource
                 bindingSource1.DataSource = dt;
+
+                // 2. Hubungkan DataGridView ke BindingSource
+                dataGridView1.DataSource = bindingSource1;
+
             }
             catch (Exception ex)
             {
