@@ -436,7 +436,8 @@ namespace MadingDigital
 
         private void btnCariBahaya_Click(object sender, EventArgs e)
         {
-
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
         }
     }
 }
