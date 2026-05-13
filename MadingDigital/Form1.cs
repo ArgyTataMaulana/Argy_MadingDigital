@@ -16,7 +16,8 @@ namespace MadingDigital
     {
         public void TampilkanData()
         {
-            
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
         }
 
         public void HitungTotal()
