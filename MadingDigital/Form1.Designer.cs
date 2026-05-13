@@ -60,6 +60,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.btnCariBahaya = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -397,6 +398,16 @@
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // btnCariBahaya
+            // 
+            this.btnCariBahaya.Location = new System.Drawing.Point(602, 618);
+            this.btnCariBahaya.Name = "btnCariBahaya";
+            this.btnCariBahaya.Size = new System.Drawing.Size(113, 23);
+            this.btnCariBahaya.TabIndex = 29;
+            this.btnCariBahaya.Text = "Cari (Vulnerable)";
+            this.btnCariBahaya.UseVisualStyleBackColor = true;
+            this.btnCariBahaya.Click += new System.EventHandler(this.btnCariBahaya_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,6 +415,7 @@
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImage = global::MadingDigital.Properties.Resources._07211b078ab5e9f537a3daeccef72279;
             this.ClientSize = new System.Drawing.Size(1220, 864);
+            this.Controls.Add(this.btnCariBahaya);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -461,6 +473,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button btnCariBahaya;
     }
 }
 

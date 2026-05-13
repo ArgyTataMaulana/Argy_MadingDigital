@@ -433,5 +433,10 @@ namespace MadingDigital
             login.Show();
             this.Close();
         }
+
+        private void btnCariBahaya_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
