@@ -271,19 +271,26 @@ namespace MadingDigital
             try
             {
                 conn.Open();
-                // Mencari judul yang mirip dengan isi txtCari
-                string query = "SELECT * FROM pengumuman WHERE judul LIKE @cari";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@cari", "%" + textBox2.Text + "%");
+                // 1. Panggil Nama Stored Procedure
+                MySqlCommand cmd = new MySqlCommand("sp_cari_pengumuman", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                // 2. Masukkan parameter keyword
+                cmd.Parameters.AddWithValue("p_keyword", textBox2.Text);
+
+                // 3. Eksekusi dan tampilkan hasil ke DataGridView
                 MySqlDataReader dr = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(dr);
+
                 dataGridView1.DataSource = dt;
+
+                // 4. Hitung hasil pencarian (Opsional untuk label total)
+                lblTotal.Text = "Ditemukan: " + dt.Rows.Count.ToString() + " data";
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Gagal Mencari: " + ex.Message);
             }
             finally
             {
