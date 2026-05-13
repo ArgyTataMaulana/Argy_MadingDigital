@@ -438,6 +438,18 @@ namespace MadingDigital
         {
             Koneksi kon = new Koneksi();
             MySqlConnection conn = kon.GetConn();
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }
