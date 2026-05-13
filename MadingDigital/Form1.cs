@@ -33,6 +33,12 @@ namespace MadingDigital
                 // 2. Hubungkan DataGridView ke BindingSource
                 dataGridView1.DataSource = bindingSource1;
 
+                // 3. AUTOMATIC BINDING untuk TextBox
+                // hapus binding lama dulu agar tidak error saat refresh
+                textBox1.DataBindings.Clear();
+                textBox3.DataBindings.Clear();
+                richTextBox1.DataBindings.Clear();
+                comboBox1.DataBindings.Clear();
             }
             catch (Exception ex)
             {
