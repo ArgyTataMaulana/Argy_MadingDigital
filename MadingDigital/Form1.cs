@@ -186,15 +186,16 @@ namespace MadingDigital
 
         private void btnHapus_Click(object sender, EventArgs e)
         {
-            // 1. Validasi: Pastikan ada data yang dipilih (ID tidak kosong)
-            if (textBox1.Text == "")
+            // 1. Validasi awal: Pastikan ID tidak kosong
+            if (string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show("Pilih data yang ingin dihapus terlebih dahulu dari tabel!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Pilih data yang ingin dihapus terlebih dahulu dari tabel!", "Peringatan");
                 return;
             }
 
-            // 2. Konfirmasi Hapus 
-            DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin menghapus pengumuman ini?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            // 2. Konfirmasi Hapus (Syarat UCP 1 & 2 tetap harus ada)
+            DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin menghapus data ini via Stored Procedure?",
+                "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (dr == DialogResult.Yes)
             {
@@ -203,22 +204,26 @@ namespace MadingDigital
                 try
                 {
                     conn.Open();
-                    // Query DELETE menggunakan parameter ID
-                    string query = "DELETE FROM pengumuman WHERE id_pengumuman = @id";
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@id", textBox1.Text);
+                    // PANGGIL NAMA STORED PROCEDURE DELETE
+                    MySqlCommand cmd = new MySqlCommand("sp_hapus_pengumuman", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.ExecuteNonQuery(); // Menjalankan perintah hapus
-                    MessageBox.Show("Data Berhasil Dihapus", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Masukkan parameter ID (Sesuai nama p_id di MySQL)
+                    cmd.Parameters.AddWithValue("p_id", textBox1.Text);
 
-                    // 3. Refresh tampilan
+                    // Eksekusi
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Data Berhasil Dihapus!", "Informasi");
+
+                    // 3. Refresh tampilan & Bersihkan Form
                     TampilkanData();
-                    HitungTotal();
-                    BersihkanForm(); // Method untuk mengosongkan textbox
+                    BersihkanForm();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Gagal Hapus: " + ex.Message);
+                    // Pesan error dari SIGNAL SQLSTATE di MySQL (jika ID tidak ditemukan) akan muncul di sini
+                    MessageBox.Show("Gagal Hapus: " + ex.Message, "Error Database");
                 }
                 finally
                 {
