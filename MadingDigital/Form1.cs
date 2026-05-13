@@ -21,6 +21,11 @@ namespace MadingDigital
 
             try
             {
+                conn.Open();
+                // Panggil VIEW
+                MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM v_tampil_pengumuman", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
 
             }
             catch (Exception ex)
