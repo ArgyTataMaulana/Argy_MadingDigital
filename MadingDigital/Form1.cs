@@ -16,28 +16,7 @@ namespace MadingDigital
     {
         public void TampilkanData()
         {
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
-            try
-            {
-                conn.Open();
-                // Memanggil VIEW sebagai pengganti query select dasar
-                string query = "SELECT * FROM v_tampil_pengumuman";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                MySqlDataReader dr = cmd.ExecuteReader();
-
-                DataTable dt = new DataTable();
-                dt.Load(dr);
-                dataGridView1.DataSource = dt;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal Load VIEW: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
         public void HitungTotal()
