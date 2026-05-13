@@ -165,7 +165,7 @@ namespace MadingDigital
                     string query = "UPDATE pengumuman SET judul=@judul, isi_pengumuman=@isi, status=@status, tanggal_upload=@tgl WHERE id_pengumuman=@id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
 
-                    cmd.Parameters.AddWithValue("@judul", textBox1.Text);
+                    cmd.Parameters.AddWithValue("@judul", textBox3.Text);
                     cmd.Parameters.AddWithValue("@isi", richTextBox1.Text);
                     cmd.Parameters.AddWithValue("@status", comboBox1.Text);
                     cmd.Parameters.AddWithValue("@tgl", dtpTanggal.Value);
@@ -410,6 +410,12 @@ namespace MadingDigital
 
                 cmd.ExecuteNonQuery();
 
+                string queryLog = "INSERT INTO riwayat_upload (nama_file, tanggal_upload, id_admin) VALUES (@namaLog, @tglLog, 1)";
+                MySqlCommand cmdLog = new MySqlCommand(queryLog, conn);
+                cmdLog.Parameters.AddWithValue("@namaLog", namaFile);
+                cmdLog.Parameters.AddWithValue("@tglLog", DateTime.Now);
+                cmdLog.ExecuteNonQuery();
+
                 MessageBox.Show("Gambar Mading Berhasil Terdaftar di Sistem!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Reset preview setelah sukses
@@ -424,6 +430,23 @@ namespace MadingDigital
             {
                 conn.Close();
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            FormKoneksi login = new FormKoneksi();
+            login.Show();
+            this.Close();
         }
     }
 }

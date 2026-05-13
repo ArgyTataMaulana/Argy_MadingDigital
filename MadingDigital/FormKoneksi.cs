@@ -30,10 +30,39 @@ namespace MadingDigital
 
         private void button1_Click(object sender, EventArgs e)
         {
-             // Buka Form Utama (CRUD)
-            Form1 formUtama = new Form1();
-            formUtama.Show();
-            this.Hide();
+            Koneksi kon = new Koneksi();
+            MySqlConnection conn = kon.GetConn();
+            try
+            {
+                conn.Open();
+                // Cek apakah username dan password cocok di database
+                string query = "SELECT COUNT(*) FROM admin WHERE username=@user AND password=@pass";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@user", textBox1.Text);
+                cmd.Parameters.AddWithValue("@pass", textBox2.Text);
+
+                int hasil = Convert.ToInt32(cmd.ExecuteScalar());
+
+                if (hasil > 0)
+                {
+                    MessageBox.Show("Login Berhasil! Selamat Datang Admin.");
+                    Form1 utama = new Form1();
+                    utama.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Username atau Password Salah!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Login: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -70,6 +99,11 @@ namespace MadingDigital
         }
 
         private void lblStatus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

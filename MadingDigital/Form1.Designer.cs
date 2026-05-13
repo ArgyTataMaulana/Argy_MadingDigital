@@ -32,6 +32,8 @@
             this.judulLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnRiwayat = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.lblTotal = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -47,22 +49,20 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.btnHapus = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.btnUbah = new System.Windows.Forms.Button();
             this.btnSimpan = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnRiwayat = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pbMading = new System.Windows.Forms.PictureBox();
             this.btnPilihGambar = new System.Windows.Forms.Button();
             this.btnUploadGambar = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnLogout = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMading)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,7 +97,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 48);
+            this.label5.Location = new System.Drawing.Point(26, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 16);
             this.label5.TabIndex = 11;
@@ -123,6 +123,26 @@
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "DAFTAR DATA";
+            // 
+            // btnRiwayat
+            // 
+            this.btnRiwayat.Location = new System.Drawing.Point(307, 249);
+            this.btnRiwayat.Name = "btnRiwayat";
+            this.btnRiwayat.Size = new System.Drawing.Size(137, 29);
+            this.btnRiwayat.TabIndex = 23;
+            this.btnRiwayat.Text = "Lihat Riwayat Upload";
+            this.btnRiwayat.UseVisualStyleBackColor = true;
+            this.btnRiwayat.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(162, 249);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(139, 29);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "Download Report";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblTotal
             // 
@@ -257,15 +277,6 @@
             this.btnHapus.UseVisualStyleBackColor = true;
             this.btnHapus.Click += new System.EventHandler(this.btnHapus_Click);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(65, 509);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(164, 26);
-            this.button4.TabIndex = 16;
-            this.button4.Text = "Clear Form";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // btnUbah
             // 
             this.btnUbah.Location = new System.Drawing.Point(205, 433);
@@ -302,7 +313,6 @@
             this.groupBox1.Controls.Add(this.btnClear);
             this.groupBox1.Controls.Add(this.btnSimpan);
             this.groupBox1.Controls.Add(this.btnUbah);
-            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.btnHapus);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.label4);
@@ -323,46 +333,18 @@
             this.groupBox1.Text = "INPUT DATA";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(162, 249);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 29);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "Download Report";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnRiwayat
-            // 
-            this.btnRiwayat.Location = new System.Drawing.Point(307, 249);
-            this.btnRiwayat.Name = "btnRiwayat";
-            this.btnRiwayat.Size = new System.Drawing.Size(137, 29);
-            this.btnRiwayat.TabIndex = 23;
-            this.btnRiwayat.Text = "Lihat Riwayat Upload";
-            this.btnRiwayat.UseVisualStyleBackColor = true;
-            this.btnRiwayat.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(-23, -46);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
-            // 
             // pbMading
             // 
-            this.pbMading.Location = new System.Drawing.Point(621, 416);
+            this.pbMading.Location = new System.Drawing.Point(621, 428);
             this.pbMading.Name = "pbMading";
-            this.pbMading.Size = new System.Drawing.Size(353, 93);
+            this.pbMading.Size = new System.Drawing.Size(353, 161);
             this.pbMading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbMading.TabIndex = 14;
             this.pbMading.TabStop = false;
             // 
             // btnPilihGambar
             // 
-            this.btnPilihGambar.Location = new System.Drawing.Point(1043, 416);
+            this.btnPilihGambar.Location = new System.Drawing.Point(1016, 492);
             this.btnPilihGambar.Name = "btnPilihGambar";
             this.btnPilihGambar.Size = new System.Drawing.Size(139, 29);
             this.btnPilihGambar.TabIndex = 24;
@@ -372,7 +354,7 @@
             // 
             // btnUploadGambar
             // 
-            this.btnUploadGambar.Location = new System.Drawing.Point(1043, 476);
+            this.btnUploadGambar.Location = new System.Drawing.Point(1016, 436);
             this.btnUploadGambar.Name = "btnUploadGambar";
             this.btnUploadGambar.Size = new System.Drawing.Size(139, 29);
             this.btnUploadGambar.TabIndex = 25;
@@ -384,17 +366,50 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(525, 21);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(0, 13);
+            this.label6.TabIndex = 26;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.LavenderBlush;
+            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(621, 398);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(160, 27);
+            this.label7.TabIndex = 27;
+            this.label7.Text = "MEDIA MADING";
+            // 
+            // btnLogout
+            // 
+            this.btnLogout.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnLogout.Location = new System.Drawing.Point(1066, 16);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(105, 23);
+            this.btnLogout.TabIndex = 28;
+            this.btnLogout.Text = "logout";
+            this.btnLogout.UseVisualStyleBackColor = false;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImage = global::MadingDigital.Properties.Resources._07211b078ab5e9f537a3daeccef72279;
-            this.ClientSize = new System.Drawing.Size(1220, 657);
+            this.ClientSize = new System.Drawing.Size(1220, 864);
+            this.Controls.Add(this.btnLogout);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnUploadGambar);
             this.Controls.Add(this.btnPilihGambar);
             this.Controls.Add(this.pbMading);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.judulLabel);
@@ -406,7 +421,6 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -434,18 +448,19 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button btnHapus;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnUbah;
         private System.Windows.Forms.Button btnSimpan;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnRiwayat;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pbMading;
         private System.Windows.Forms.Button btnPilihGambar;
         private System.Windows.Forms.Button btnUploadGambar;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnLogout;
     }
 }
 
