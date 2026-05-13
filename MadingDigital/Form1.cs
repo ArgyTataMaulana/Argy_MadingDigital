@@ -142,8 +142,7 @@ namespace MadingDigital
 
         private void btnUbah_Click(object sender, EventArgs e)
         {
-            // 1. Konfirmasi sebelum ubah 
-            DialogResult dialogResult = MessageBox.Show("Apakah Anda yakin ingin mengubah data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dialogResult = MessageBox.Show("Simpan perubahan data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialogResult == DialogResult.Yes)
             {
@@ -152,24 +151,31 @@ namespace MadingDigital
                 try
                 {
                     conn.Open();
-                    // Query UPDATE berdasarkan ID
-                    string query = "UPDATE pengumuman SET judul=@judul, isi_pengumuman=@isi, status=@status, tanggal_upload=@tgl WHERE id_pengumuman=@id";
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    // PANGGIL NAMA STORED PROCEDURE
+                    MySqlCommand cmd = new MySqlCommand("sp_ubah_pengumuman", conn);
 
-                    cmd.Parameters.AddWithValue("@judul", textBox3.Text);
-                    cmd.Parameters.AddWithValue("@isi", richTextBox1.Text);
-                    cmd.Parameters.AddWithValue("@status", comboBox1.Text);
-                    cmd.Parameters.AddWithValue("@tgl", dtpTanggal.Value);
-                    cmd.Parameters.AddWithValue("@id", textBox1.Text);
+                    //  Set tipe perintah menjadi StoredProcedure
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Masukkan parameter 
+                    cmd.Parameters.AddWithValue("p_id", textBox1.Text);
+                    cmd.Parameters.AddWithValue("p_judul", textBox3.Text);
+                    cmd.Parameters.AddWithValue("p_isi", richTextBox1.Text);
+                    cmd.Parameters.AddWithValue("p_status", comboBox1.Text);
+                    cmd.Parameters.AddWithValue("p_tgl", dtpTanggal.Value);
+
+                    // Eksekusi
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Data Berhasil Diperbarui!");
+
+                    MessageBox.Show("Data Berhasil Diperbarui via Stored Procedure!", "Sukses");
 
                     TampilkanData(); // Refresh tabel
+                    BersihkanForm(); // Kosongkan input
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Gagal Update: " + ex.Message);
+                    // Jika Stored Procedure mengeluarkan SIGNAL SQLSTATE (Error), akan ditangkap di sini
+                    MessageBox.Show("Gagal Update: " + ex.Message, "Error Database");
                 }
                 finally
                 {
