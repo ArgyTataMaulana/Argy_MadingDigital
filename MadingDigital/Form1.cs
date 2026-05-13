@@ -141,20 +141,7 @@ namespace MadingDigital
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
-                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
-                    
-                textBox1.Text = row.Cells[0].Value.ToString();
-                textBox3.Text = row.Cells[1].Value.ToString();
-                richTextBox1.Text = row.Cells[2].Value.ToString();
-                comboBox1.Text = row.Cells[3].Value.ToString();
-                dtpTanggal.Value = Convert.ToDateTime(row.Cells[4].Value);
-            }
-            catch (Exception)
-            {
-                
-            }
+            
         }
 
         private void btnUbah_Click(object sender, EventArgs e)
