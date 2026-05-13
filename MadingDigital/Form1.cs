@@ -27,6 +27,8 @@ namespace MadingDigital
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
+                // 1. Masukkan DataTable ke BindingSource
+                bindingSource1.DataSource = dt;
             }
             catch (Exception ex)
             {
