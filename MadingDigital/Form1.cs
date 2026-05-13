@@ -39,6 +39,13 @@ namespace MadingDigital
                 textBox3.DataBindings.Clear();
                 richTextBox1.DataBindings.Clear();
                 comboBox1.DataBindings.Clear();
+
+                // Hubungkan properti "Text" kontrol ke kolom database melalui bindingSource1
+                textBox1.DataBindings.Add("Text", bindingSource1, "id_pengumuman");
+                textBox3.DataBindings.Add("Text", bindingSource1, "judul");
+                richTextBox1.DataBindings.Add("Text", bindingSource1, "isi_pengumuman");
+                comboBox1.DataBindings.Add("Text", bindingSource1, "status");
+
             }
             catch (Exception ex)
             {
