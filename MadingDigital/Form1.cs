@@ -440,7 +440,14 @@ namespace MadingDigital
             MySqlConnection conn = kon.GetConn();
             try
             {
-                
+                conn.Open();
+               
+                string query = "SELECT * FROM v_tampil_pengumuman WHERE judul = '" + textBox2.Text + "'";
+
+                MySqlDataAdapter da = new MySqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dataGridView1.DataSource = dt;
             }
             catch (Exception ex)
             {
