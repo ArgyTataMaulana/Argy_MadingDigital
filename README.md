@@ -14,5 +14,18 @@ Screenshot hasil menjalankan sistem (File ReadMe) :
 
 <img width="1209" height="671" alt="image" src="https://github.com/user-attachments/assets/0000c236-d2b1-40c5-8ead-22dda84e626a" />
 
+### 🛡️ Skenario SQL Injection (UCP 2)
 
+**1. Deskripsi Masalah**
+Fitur pencarian pada tombol `btnCariBahaya` bersifat rentan karena menggunakan penggabungan string (concatenation) secara langsung:
+`query = "SELECT * FROM v_tampil_pengumuman WHERE judul = '" + textBox2.Text + "'";`
+
+**2. Langkah Serangan (Payload)**
+Input yang digunakan: `' OR 1=1 -- `
+
+**3. Dampak Serangan**
+Logic pencarian berhasil di-bypass. Database mengevaluasi pernyataan `1=1` sebagai TRUE untuk setiap baris, sehingga sistem menampilkan seluruh data sensitif meskipun user tidak mengetahui kata kunci pencarian yang benar.
+
+**4. Solusi Keamanan**
+Serangan ini dicegah dengan menggunakan **Stored Procedure** (`sp_cari_pengumuman`). Dengan memisahkan logika query dan data input melalui Parameter, karakter berbahaya seperti `'` (kutip tunggal) dan `--` (comment) akan dibaca sebagai string literal, bukan perintah eksekusi SQL.
 
