@@ -89,7 +89,8 @@ namespace MadingDigital
             textBox3.Clear();
             richTextBox1.Clear();
             comboBox1.SelectedIndex = -1; // Mengosongkan pilihan ComboBox
-            dtpTanggal.Value = DateTime.Now; // Reset tanggal ke hari ini
+            dtpTanggal.MinDate = DateTime.Now; // Biar ga bisa input tanggal masa lalu
+            dtpTanggal.MaxDate = DateTime.Now.AddYears(10);
         }
 
         // Panggil di event Klik tombol Bersihkan
@@ -150,6 +151,24 @@ namespace MadingDigital
 
             if (dialogResult == DialogResult.Yes)
             {
+                DateTime hariIni = DateTime.Now.Date;
+                // Batas maksimal 10 tahun dari sekarang
+                DateTime batasMax = DateTime.Now.AddYears(10);
+
+                if (dtpTanggal.Value.Date < hariIni)
+                {
+                    MessageBox.Show("Jangan narik masa lalu, pilih tanggal hari ini atau kedepan!",
+                                    "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dtpTanggal.Value > batasMax)
+                {
+                    MessageBox.Show("Tanggal tidak boleh lebih dari 10 tahun ke depan!", "Peringatan");
+                    return; // Batalkan proses update
+                }
+
+
                 Koneksi kon = new Koneksi();
                 MySqlConnection conn = kon.GetConn();
                 try
@@ -243,6 +262,22 @@ namespace MadingDigital
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
+            DateTime hariIni = DateTime.Now.Date;
+            DateTime batasMax = DateTime.Now.AddYears(10);
+
+            if (dtpTanggal.Value.Date < hariIni)
+            {
+                MessageBox.Show("Masa lalu biarlah berlalu bre, pilih tanggal hari ini atau kedepan untuk pengumuman baru!",
+                                "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (dtpTanggal.Value.Date > batasMax)
+            {
+                MessageBox.Show("Maksimal 10 tahun kedepan bre!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             Koneksi kon = new Koneksi();
     MySqlConnection conn = kon.GetConn();
     try {
@@ -461,6 +496,11 @@ namespace MadingDigital
             {
                 conn.Close();
             }
+        }
+
+        private void dtpTanggal_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
