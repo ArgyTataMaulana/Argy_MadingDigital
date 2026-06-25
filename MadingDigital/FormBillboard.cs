@@ -8,75 +8,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MadingDigital.BLL;
+
 namespace MadingDigital
 {
     public partial class FormBillboard : Form
     {
-        // List untuk menampung data dari database
-        List<string> listGambar = new List<string>();
-        List<string> listJudul = new List<string>();
-        List<string> listIsi = new List<string>();
-        int indexSekarang = 0;
+        private readonly PengumumanBLL pengumumanBLL = new PengumumanBLL();
+        private readonly GambarMadingBLL gambarBLL = new GambarMadingBLL();
+
+        private DataTable dtPengumuman;
+        private DataTable dtGambar;
+        private int indexSekarang = 0;
+        private Timer timerSlide;
 
         public FormBillboard()
         {
             InitializeComponent();
+
+           
+
+
+            // Setup Timer
+            timerSlide = new Timer();
+            timerSlide.Interval = 5000; // 5 detik
+            timerSlide.Tick += timerSlide_Tick;
         }
 
         private void FormBillboard_Load(object sender, EventArgs e)
         {
-            // Menghilangkan border dan membuat layar penuh
-            this.FormBorderStyle = FormBorderStyle.None;
+                    this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
 
-            AmbilDataDariDatabase();
+            LoadDataForBillboard();
 
-            // Jalankan slide pertama kali jika ada data
-            if (listGambar.Count > 0 || listJudul.Count > 0)
+            if (dtPengumuman.Rows.Count > 0 || dtGambar.Rows.Count > 0)
             {
+                timerSlide.Start();
                 UpdateTampilan();
             }
             else
             {
-                lblJudul.Text = "Selamat Datang";
-                lblIsi.Text = "Belum ada pengumuman aktif saat ini.";
+                lblJudul.Text = "Tidak Ada Pengumuman";
+                lblIsi.Text = "Silakan tambahkan pengumuman melalui admin panel.";
             }
         }
 
-        private void AmbilDataDariDatabase()
+        private void LoadDataForBillboard()
         {
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
             try
             {
-                conn.Open();
+                dtPengumuman = pengumumanBLL.GetPengumumanAktifSekarang();
+                dtGambar = gambarBLL.GetAllGambarAktif();
 
-                // 1. Ambil Data Gambar (dari tabel gambar_mading)
-                MySqlCommand cmdG = new MySqlCommand("SELECT path_file FROM gambar_mading", conn);
-                MySqlDataReader drG = cmdG.ExecuteReader();
-                while (drG.Read())
-                {
-                    listGambar.Add(drG["path_file"].ToString());
-                }
-                drG.Close();
-
-                // 2. Ambil Data Pengumuman (dari tabel pengumuman yang statusnya aktif)
-                MySqlCommand cmdT = new MySqlCommand("SELECT judul, isi_pengumuman FROM pengumuman WHERE status='aktif'", conn);
-                MySqlDataReader drT = cmdT.ExecuteReader();
-                while (drT.Read())
-                {
-                    listJudul.Add(drT["judul"].ToString());
-                    listIsi.Add(drT["isi_pengumuman"].ToString());
-                }
-                drT.Close();
+            
+                MessageBox.Show($"Pengumuman: {dtPengumuman.Rows.Count} baris\nGambar: {dtGambar.Rows.Count} baris");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat konten Billboard: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show("Gagal memuat data billboard: " + ex.Message);
             }
         }
 
@@ -87,29 +77,57 @@ namespace MadingDigital
 
         private void UpdateTampilan()
         {
-            // Update Gambar (Jika ada gambar di list)
-            if (listGambar.Count > 0)
+            if (dtPengumuman.Rows.Count > 0)
             {
-                int idxG = indexSekarang % listGambar.Count;
-                // Menggunakan ImageLocation agar tidak berat saat loading file
-                pictureBox1.ImageLocation = listGambar[idxG];
+                int idx = indexSekarang % dtPengumuman.Rows.Count;
+                DataRow row = dtPengumuman.Rows[idx];
+
+                lblJudul.Text = row["judul"].ToString();
+                lblIsi.Text = row["isi_pengumuman"].ToString();
             }
 
-            // Update Teks Pengumuman (Jika ada teks di list)
-            if (listJudul.Count > 0)
+            if (dtGambar.Rows.Count > 0)
             {
-                int idxT = indexSekarang % listJudul.Count;
-                lblJudul.Text = listJudul[idxT];
-                lblIsi.Text = listIsi[idxT];
+                int idxG = indexSekarang % dtGambar.Rows.Count;
+                string path = dtGambar.Rows[idxG]["path_file"].ToString();
+                
+                try
+                {
+                    pictureBox1.ImageLocation = path;
+                }
+                catch
+                {
+                    pictureBox1.Image = null;
+                }
             }
 
-            // Naikkan index untuk giliran selanjutnya
             indexSekarang++;
         }
-
         private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control) // Tekan Ctrl + Klik untuk close
+            {
+                this.Close();
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            timerSlide.Stop();
+            base.OnFormClosing(e);
+        }
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+            base.OnKeyDown(e);
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
     }
+
+
 }

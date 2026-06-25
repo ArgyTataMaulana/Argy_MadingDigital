@@ -1,4 +1,4 @@
-﻿namespace MadingDigital
+namespace MadingDigital
 {
     partial class Form1
     {
@@ -34,6 +34,7 @@
             this.judulLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnLihatJadwal = new System.Windows.Forms.Button();
             this.btnRiwayat = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lblTotal = new System.Windows.Forms.Label();
@@ -55,6 +56,7 @@
             this.btnSimpan = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCariBahaya = new System.Windows.Forms.Button();
             this.pbMading = new System.Windows.Forms.PictureBox();
             this.btnPilihGambar = new System.Windows.Forms.Button();
             this.btnUploadGambar = new System.Windows.Forms.Button();
@@ -62,7 +64,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnCariBahaya = new System.Windows.Forms.Button();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
@@ -76,6 +77,16 @@
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnBillboard = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.dtpJadwalMulai = new System.Windows.Forms.DateTimePicker();
+            this.dtpJadwalSelesai = new System.Windows.Forms.DateTimePicker();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnAturJadwal = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.btnCetakLaporan = new System.Windows.Forms.Button();
+            this.btnImportExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -83,6 +94,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -100,6 +112,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(550, 170);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // judulLabel
             // 
@@ -107,7 +120,7 @@
             this.judulLabel.BackColor = System.Drawing.Color.LavenderBlush;
             this.judulLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.judulLabel.Font = new System.Drawing.Font("Poor Richard", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.judulLabel.Location = new System.Drawing.Point(348, 9);
+            this.judulLabel.Location = new System.Drawing.Point(345, 34);
             this.judulLabel.Name = "judulLabel";
             this.judulLabel.Size = new System.Drawing.Size(519, 35);
             this.judulLabel.TabIndex = 6;
@@ -116,7 +129,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(26, 44);
+            this.label5.Location = new System.Drawing.Point(16, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 16);
             this.label5.TabIndex = 11;
@@ -127,6 +140,7 @@
             // 
             this.groupBox2.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.groupBox2.Controls.Add(this.btnLihatJadwal);
             this.groupBox2.Controls.Add(this.btnRiwayat);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.lblTotal);
@@ -143,6 +157,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "DAFTAR DATA";
             // 
+            // btnLihatJadwal
+            // 
+            this.btnLihatJadwal.Location = new System.Drawing.Point(162, 249);
+            this.btnLihatJadwal.Name = "btnLihatJadwal";
+            this.btnLihatJadwal.Size = new System.Drawing.Size(139, 29);
+            this.btnLihatJadwal.TabIndex = 24;
+            this.btnLihatJadwal.Text = "Lihat Jadwal";
+            this.btnLihatJadwal.UseVisualStyleBackColor = true;
+            this.btnLihatJadwal.Click += new System.EventHandler(this.btnLihatJadwal_Click);
+            // 
             // btnRiwayat
             // 
             this.btnRiwayat.Location = new System.Drawing.Point(307, 249);
@@ -155,9 +179,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(162, 249);
+            this.button1.Location = new System.Drawing.Point(450, 38);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 29);
+            this.button1.Size = new System.Drawing.Size(127, 29);
             this.button1.TabIndex = 22;
             this.button1.Text = "Download Report";
             this.button1.UseVisualStyleBackColor = true;
@@ -184,7 +208,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(367, 38);
+            this.btnSearch.Location = new System.Drawing.Point(333, 38);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(111, 29);
             this.btnSearch.TabIndex = 19;
@@ -194,14 +218,14 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(71, 41);
+            this.textBox2.Location = new System.Drawing.Point(50, 41);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(273, 23);
             this.textBox2.TabIndex = 19;
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(107, 174);
+            this.richTextBox1.Location = new System.Drawing.Point(105, 143);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.richTextBox1.Size = new System.Drawing.Size(327, 160);
@@ -210,7 +234,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(107, 103);
+            this.textBox1.Location = new System.Drawing.Point(105, 72);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(326, 28);
             this.textBox1.TabIndex = 2;
@@ -218,9 +242,9 @@
             // 
             // dtpTanggal
             // 
-            this.dtpTanggal.Location = new System.Drawing.Point(107, 347);
+            this.dtpTanggal.Location = new System.Drawing.Point(166, 316);
             this.dtpTanggal.Name = "dtpTanggal";
-            this.dtpTanggal.Size = new System.Drawing.Size(196, 28);
+            this.dtpTanggal.Size = new System.Drawing.Size(266, 28);
             this.dtpTanggal.TabIndex = 4;
             this.dtpTanggal.ValueChanged += new System.EventHandler(this.dtpTanggal_ValueChanged);
             // 
@@ -230,7 +254,7 @@
             this.comboBox1.Items.AddRange(new object[] {
             "aktif",
             "nonaktif"});
-            this.comboBox1.Location = new System.Drawing.Point(107, 383);
+            this.comboBox1.Location = new System.Drawing.Point(236, 352);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(196, 29);
             this.comboBox1.TabIndex = 5;
@@ -238,7 +262,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 103);
+            this.label1.Location = new System.Drawing.Point(36, 72);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 21);
             this.label1.TabIndex = 6;
@@ -247,7 +271,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 138);
+            this.label2.Location = new System.Drawing.Point(35, 107);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 21);
             this.label2.TabIndex = 7;
@@ -257,7 +281,7 @@
             // labelIsi
             // 
             this.labelIsi.AutoSize = true;
-            this.labelIsi.Location = new System.Drawing.Point(37, 174);
+            this.labelIsi.Location = new System.Drawing.Point(35, 143);
             this.labelIsi.Name = "labelIsi";
             this.labelIsi.Size = new System.Drawing.Size(32, 21);
             this.labelIsi.TabIndex = 8;
@@ -267,7 +291,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(38, 383);
+            this.label3.Location = new System.Drawing.Point(36, 360);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 21);
             this.label3.TabIndex = 9;
@@ -276,7 +300,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(37, 347);
+            this.label4.Location = new System.Drawing.Point(35, 316);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 21);
             this.label4.TabIndex = 10;
@@ -285,14 +309,14 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(107, 138);
+            this.textBox3.Location = new System.Drawing.Point(105, 107);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(326, 28);
             this.textBox3.TabIndex = 12;
             // 
             // btnHapus
             // 
-            this.btnHapus.Location = new System.Drawing.Point(342, 433);
+            this.btnHapus.Location = new System.Drawing.Point(341, 408);
             this.btnHapus.Name = "btnHapus";
             this.btnHapus.Size = new System.Drawing.Size(111, 29);
             this.btnHapus.TabIndex = 15;
@@ -302,7 +326,7 @@
             // 
             // btnUbah
             // 
-            this.btnUbah.Location = new System.Drawing.Point(205, 433);
+            this.btnUbah.Location = new System.Drawing.Point(204, 408);
             this.btnUbah.Name = "btnUbah";
             this.btnUbah.Size = new System.Drawing.Size(111, 29);
             this.btnUbah.TabIndex = 17;
@@ -312,7 +336,7 @@
             // 
             // btnSimpan
             // 
-            this.btnSimpan.Location = new System.Drawing.Point(65, 433);
+            this.btnSimpan.Location = new System.Drawing.Point(64, 408);
             this.btnSimpan.Name = "btnSimpan";
             this.btnSimpan.Size = new System.Drawing.Size(111, 29);
             this.btnSimpan.TabIndex = 18;
@@ -322,7 +346,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(65, 474);
+            this.btnClear.Location = new System.Drawing.Point(64, 449);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(147, 29);
             this.btnClear.TabIndex = 20;
@@ -335,6 +359,7 @@
             this.groupBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.groupBox1.Controls.Add(this.btnClear);
             this.groupBox1.Controls.Add(this.btnSimpan);
+            this.groupBox1.Controls.Add(this.btnCariBahaya);
             this.groupBox1.Controls.Add(this.btnUbah);
             this.groupBox1.Controls.Add(this.btnHapus);
             this.groupBox1.Controls.Add(this.textBox3);
@@ -350,15 +375,25 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(37, 97);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(523, 509);
+            this.groupBox1.Size = new System.Drawing.Size(523, 492);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INPUT DATA";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // btnCariBahaya
+            // 
+            this.btnCariBahaya.Location = new System.Drawing.Point(243, 449);
+            this.btnCariBahaya.Name = "btnCariBahaya";
+            this.btnCariBahaya.Size = new System.Drawing.Size(168, 23);
+            this.btnCariBahaya.TabIndex = 29;
+            this.btnCariBahaya.Text = "Cari (Vulnerable)";
+            this.btnCariBahaya.UseVisualStyleBackColor = true;
+            this.btnCariBahaya.Click += new System.EventHandler(this.btnCariBahaya_Click);
+            // 
             // pbMading
             // 
-            this.pbMading.Location = new System.Drawing.Point(621, 428);
+            this.pbMading.Location = new System.Drawing.Point(602, 398);
             this.pbMading.Name = "pbMading";
             this.pbMading.Size = new System.Drawing.Size(353, 161);
             this.pbMading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -367,9 +402,9 @@
             // 
             // btnPilihGambar
             // 
-            this.btnPilihGambar.Location = new System.Drawing.Point(1016, 492);
+            this.btnPilihGambar.Location = new System.Drawing.Point(1100, 405);
             this.btnPilihGambar.Name = "btnPilihGambar";
-            this.btnPilihGambar.Size = new System.Drawing.Size(139, 29);
+            this.btnPilihGambar.Size = new System.Drawing.Size(108, 29);
             this.btnPilihGambar.TabIndex = 24;
             this.btnPilihGambar.Text = "Pilih Gambar";
             this.btnPilihGambar.UseVisualStyleBackColor = true;
@@ -377,9 +412,9 @@
             // 
             // btnUploadGambar
             // 
-            this.btnUploadGambar.Location = new System.Drawing.Point(1016, 436);
+            this.btnUploadGambar.Location = new System.Drawing.Point(969, 405);
             this.btnUploadGambar.Name = "btnUploadGambar";
-            this.btnUploadGambar.Size = new System.Drawing.Size(139, 29);
+            this.btnUploadGambar.Size = new System.Drawing.Size(107, 29);
             this.btnUploadGambar.TabIndex = 25;
             this.btnUploadGambar.Text = "Upload Gambar";
             this.btnUploadGambar.UseVisualStyleBackColor = true;
@@ -403,32 +438,22 @@
             this.label7.BackColor = System.Drawing.Color.LavenderBlush;
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(621, 398);
+            this.label7.Location = new System.Drawing.Point(598, 388);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 27);
+            this.label7.Size = new System.Drawing.Size(143, 27);
             this.label7.TabIndex = 27;
-            this.label7.Text = "MEDIA MADING";
+            this.label7.Text = "Media Mading";
             // 
             // btnLogout
             // 
             this.btnLogout.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnLogout.Location = new System.Drawing.Point(1066, 16);
+            this.btnLogout.Location = new System.Drawing.Point(1066, 34);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(105, 23);
             this.btnLogout.TabIndex = 28;
             this.btnLogout.Text = "logout";
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
-            // btnCariBahaya
-            // 
-            this.btnCariBahaya.Location = new System.Drawing.Point(602, 618);
-            this.btnCariBahaya.Name = "btnCariBahaya";
-            this.btnCariBahaya.Size = new System.Drawing.Size(113, 23);
-            this.btnCariBahaya.TabIndex = 29;
-            this.btnCariBahaya.Text = "Cari (Vulnerable)";
-            this.btnCariBahaya.UseVisualStyleBackColor = true;
-            this.btnCariBahaya.Click += new System.EventHandler(this.btnCariBahaya_Click);
             // 
             // bindingNavigator1
             // 
@@ -545,15 +570,135 @@
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // btnBillboard
+            // 
+            this.btnBillboard.BackColor = System.Drawing.Color.Yellow;
+            this.btnBillboard.FlatAppearance.BorderSize = 0;
+            this.btnBillboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBillboard.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBillboard.Location = new System.Drawing.Point(969, 472);
+            this.btnBillboard.Name = "btnBillboard";
+            this.btnBillboard.Size = new System.Drawing.Size(210, 50);
+            this.btnBillboard.TabIndex = 31;
+            this.btnBillboard.Text = "📟Lihat Billboard";
+            this.btnBillboard.UseVisualStyleBackColor = false;
+            this.btnBillboard.Click += new System.EventHandler(this.btnBillboard_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 25);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(102, 20);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "jadwal Mulai :";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 64);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(122, 20);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "Jadwal Selesai :";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
+            // 
+            // dtpJadwalMulai
+            // 
+            this.dtpJadwalMulai.Location = new System.Drawing.Point(147, 19);
+            this.dtpJadwalMulai.Name = "dtpJadwalMulai";
+            this.dtpJadwalMulai.Size = new System.Drawing.Size(261, 26);
+            this.dtpJadwalMulai.TabIndex = 23;
+            // 
+            // dtpJadwalSelesai
+            // 
+            this.dtpJadwalSelesai.Location = new System.Drawing.Point(147, 59);
+            this.dtpJadwalSelesai.Name = "dtpJadwalSelesai";
+            this.dtpJadwalSelesai.Size = new System.Drawing.Size(261, 26);
+            this.dtpJadwalSelesai.TabIndex = 24;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.btnAturJadwal);
+            this.groupBox3.Controls.Add(this.dtpJadwalSelesai);
+            this.groupBox3.Controls.Add(this.dtpJadwalMulai);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(602, 573);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(524, 91);
+            this.groupBox3.TabIndex = 25;
+            this.groupBox3.TabStop = false;
+            // 
+            // btnAturJadwal
+            // 
+            this.btnAturJadwal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAturJadwal.Location = new System.Drawing.Point(426, 19);
+            this.btnAturJadwal.Name = "btnAturJadwal";
+            this.btnAturJadwal.Size = new System.Drawing.Size(80, 57);
+            this.btnAturJadwal.TabIndex = 30;
+            this.btnAturJadwal.Text = "Atur JAdwal";
+            this.btnAturJadwal.UseVisualStyleBackColor = true;
+            this.btnAturJadwal.Click += new System.EventHandler(this.btnAturJadwal_Click_1);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.LavenderBlush;
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(598, 562);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(137, 27);
+            this.label8.TabIndex = 32;
+            this.label8.Text = "Jadwal Tampil";
+            // 
+            // btnCetakLaporan
+            // 
+            this.btnCetakLaporan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(101)))), ((int)(((byte)(192)))));
+            this.btnCetakLaporan.FlatAppearance.BorderSize = 0;
+            this.btnCetakLaporan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCetakLaporan.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCetakLaporan.ForeColor = System.Drawing.Color.White;
+            this.btnCetakLaporan.Location = new System.Drawing.Point(56, 598);
+            this.btnCetakLaporan.Name = "btnCetakLaporan";
+            this.btnCetakLaporan.Size = new System.Drawing.Size(210, 45);
+            this.btnCetakLaporan.TabIndex = 33;
+            this.btnCetakLaporan.Text = "🖨  Cetak Laporan";
+            this.btnCetakLaporan.UseVisualStyleBackColor = false;
+            this.btnCetakLaporan.Click += new System.EventHandler(this.btnCetakLaporan_Click);
+            // 
+            // btnImportExcel
+            // 
+            this.btnImportExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnImportExcel.FlatAppearance.BorderSize = 0;
+            this.btnImportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportExcel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnImportExcel.ForeColor = System.Drawing.Color.White;
+            this.btnImportExcel.Location = new System.Drawing.Point(315, 598);
+            this.btnImportExcel.Name = "btnImportExcel";
+            this.btnImportExcel.Size = new System.Drawing.Size(210, 45);
+            this.btnImportExcel.TabIndex = 34;
+            this.btnImportExcel.Text = "📗 Import Excel";
+            this.btnImportExcel.UseVisualStyleBackColor = false;
+            this.btnImportExcel.Click += new System.EventHandler(this.btnImportExcel_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BackgroundImage = global::MadingDigital.Properties.Resources._07211b078ab5e9f537a3daeccef72279;
-            this.ClientSize = new System.Drawing.Size(1220, 864);
+            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.BackgroundImage = global::MadingDigital.Properties.Resources.umy_background;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1220, 676);
+            this.Controls.Add(this.btnImportExcel);
+            this.Controls.Add(this.btnCetakLaporan);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.btnBillboard);
             this.Controls.Add(this.bindingNavigator1);
-            this.Controls.Add(this.btnCariBahaya);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -563,6 +708,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.judulLabel);
+            this.Controls.Add(this.groupBox3);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -576,6 +722,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -629,6 +777,16 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.Button btnBillboard;
+        private System.Windows.Forms.DateTimePicker dtpJadwalSelesai;
+        private System.Windows.Forms.DateTimePicker dtpJadwalMulai;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnAturJadwal;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnLihatJadwal;
+        private System.Windows.Forms.Button btnCetakLaporan;
+        private System.Windows.Forms.Button btnImportExcel;
     }
 }
-

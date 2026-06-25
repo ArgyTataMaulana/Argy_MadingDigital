@@ -1,4 +1,7 @@
-﻿using System;
+using MadingDigital.DAL.MadingDigital.DAL;
+using MadingDigital.BLL;
+using MySql.Data.MySqlClient; 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,97 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient; 
+using System.Drawing.Drawing2D;
+using System.IO;
+using ExcelDataReader;
+
 
 
 namespace MadingDigital
 {
     public partial class Form1 : Form
     {
-        public void TampilkanData()
-        {
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
-
-            try
-            {
-                conn.Open();
-                // Panggil VIEW
-                MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM v_tampil_pengumuman", conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                // 1. Masukkan DataTable ke BindingSource
-                bindingSource1.DataSource = dt;
-
-                // 2. Hubungkan DataGridView ke BindingSource
-                dataGridView1.DataSource = bindingSource1;
-
-                // 3. AUTOMATIC BINDING untuk TextBox
-                // hapus binding lama dulu agar tidak error saat refresh
-                textBox1.DataBindings.Clear();
-                textBox3.DataBindings.Clear();
-                richTextBox1.DataBindings.Clear();
-                comboBox1.DataBindings.Clear();
-
-                // Hubungkan properti "Text" kontrol ke kolom database melalui bindingSource1
-                textBox1.DataBindings.Add("Text", bindingSource1, "id_pengumuman");
-                textBox3.DataBindings.Add("Text", bindingSource1, "judul");
-                richTextBox1.DataBindings.Add("Text", bindingSource1, "isi_pengumuman");
-                comboBox1.DataBindings.Add("Text", bindingSource1, "status");
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal Load Binding: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        public void HitungTotal()
-        {
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
-
-            try
-            {
-                conn.Open();
-                // Query Count
-                string query = "SELECT COUNT(*) FROM pengumuman";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-                int total = Convert.ToInt32(cmd.ExecuteScalar());
-
-                lblTotal.Text = "Total Pengumuman: " + total.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal menghitung data: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        private void BersihkanForm()
-        {
-            textBox1.Clear();
-            textBox3.Clear();
-            richTextBox1.Clear();
-            comboBox1.SelectedIndex = -1; // Mengosongkan pilihan ComboBox
-            dtpTanggal.MinDate = DateTime.Now; // Biar ga bisa input tanggal masa lalu
-            dtpTanggal.MaxDate = DateTime.Now.AddYears(10);
-        }
-
-        // Panggil di event Klik tombol Bersihkan
-        private void btnBersihkan_Click(object sender, EventArgs e)
-        {
-            BersihkanForm();
-        }
+        private readonly PengumumanBLL pengumumanBLL = new PengumumanBLL();
+        private readonly GambarMadingBLL gambarBLL = new GambarMadingBLL();
 
         public Form1()
         {
@@ -110,360 +34,286 @@ namespace MadingDigital
             HitungTotal();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
+       
 
+        // ====================== DATA ======================
+        public void TampilkanData()
+        {
+            try
+            {
+                DataTable dt = pengumumanBLL.GetAllPengumuman();
+                bindingSource1.DataSource = dt;
+                dataGridView1.DataSource = bindingSource1;
+
+                // Binding Controls
+                textBox1.DataBindings.Clear();
+                textBox3.DataBindings.Clear();
+                richTextBox1.DataBindings.Clear();
+                comboBox1.DataBindings.Clear();
+
+                textBox1.DataBindings.Add("Text", bindingSource1, "id_pengumuman");
+                textBox3.DataBindings.Add("Text", bindingSource1, "judul");
+                richTextBox1.DataBindings.Add("Text", bindingSource1, "isi_pengumuman");
+                comboBox1.DataBindings.Add("Text", bindingSource1, "status");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat data: " + ex.Message, "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        public void HitungTotal()
         {
-
+            try
+            {
+                int total = pengumumanBLL.HitungTotalPengumuman();
+                lblTotal.Text = "Total Pengumuman: " + total.ToString();
+            }
+            catch
+            {
+                lblTotal.Text = "Total Pengumuman: 0";
+            }
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void BersihkanForm()
         {
-
+            textBox1.Clear();
+            textBox3.Clear();
+            richTextBox1.Clear();
+            textBox2.Clear();
+            comboBox1.SelectedIndex = -1;
+            dtpTanggal.Value = DateTime.Now.Date;
+            pbMading.Image = null;
+            pbMading.Tag = null;
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        // ====================== CRUD PENGUMUMAN ======================
+        private void btnSimpan_Click(object sender, EventArgs e)
         {
+            try
+            {
+                pengumumanBLL.TambahPengumuman(
+                    textBox3.Text.Trim(),
+                    richTextBox1.Text.Trim(),
+                    comboBox1.Text,
+                    dtpTanggal.Value,
+                    1); // id_admin (nanti pakai session login)
 
-        }
-
-        private void labelIsi_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
+                MessageBox.Show("Pengumuman berhasil disimpan!", "Sukses");
+                BersihkanForm();
+                TampilkanData();
+                HitungTotal();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnUbah_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Simpan perubahan data ini?", "Konfirmasi Ubah", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
+            if (string.IsNullOrEmpty(textBox1.Text))
             {
-                DateTime hariIni = DateTime.Now.Date;
-                // Batas maksimal 10 tahun dari sekarang
-                DateTime batasMax = DateTime.Now.AddYears(10);
+                MessageBox.Show("Pilih data yang akan diubah terlebih dahulu!", "Peringatan");
+                return;
+            }
 
-                if (dtpTanggal.Value.Date < hariIni)
-                {
-                    MessageBox.Show("Jangan narik masa lalu, pilih tanggal hari ini atau kedepan!",
-                                    "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (dtpTanggal.Value > batasMax)
-                {
-                    MessageBox.Show("Tanggal tidak boleh lebih dari 10 tahun ke depan!", "Peringatan");
-                    return; // Batalkan proses update
-                }
-
-
-                Koneksi kon = new Koneksi();
-                MySqlConnection conn = kon.GetConn();
+            if (MessageBox.Show("Simpan perubahan data ini?", "Konfirmasi Ubah",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
                 try
                 {
-                    conn.Open();
-                    // PANGGIL NAMA STORED PROCEDURE
-                    MySqlCommand cmd = new MySqlCommand("sp_ubah_pengumuman", conn);
+                    pengumumanBLL.UbahPengumuman(
+                        Convert.ToInt32(textBox1.Text),
+                        textBox3.Text.Trim(),
+                        richTextBox1.Text.Trim(),
+                        comboBox1.Text,
+                        dtpTanggal.Value);
 
-                    //  Set tipe perintah menjadi StoredProcedure
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Masukkan parameter 
-                    cmd.Parameters.AddWithValue("p_id", textBox1.Text);
-                    cmd.Parameters.AddWithValue("p_judul", textBox3.Text);
-                    cmd.Parameters.AddWithValue("p_isi", richTextBox1.Text);
-                    cmd.Parameters.AddWithValue("p_status", comboBox1.Text);
-                    cmd.Parameters.AddWithValue("p_tgl", dtpTanggal.Value);
-
-                    // Eksekusi
-                    cmd.ExecuteNonQuery();
-
-                    MessageBox.Show("Data Berhasil Diperbarui via Stored Procedure!", "Sukses");
-
-                    TampilkanData(); // Refresh tabel
-                    BersihkanForm(); // Kosongkan input
+                    MessageBox.Show("Data berhasil diperbarui!", "Sukses");
+                    TampilkanData();
+                    BersihkanForm();
                 }
                 catch (Exception ex)
                 {
-                    // Jika Stored Procedure mengeluarkan SIGNAL SQLSTATE (Error), akan ditangkap di sini
-                    MessageBox.Show("Gagal Update: " + ex.Message, "Error Database");
-                }
-                finally
-                {
-                    conn.Close();
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void btnHapus_Click(object sender, EventArgs e)
         {
-            // 1. Validasi awal: Pastikan ID tidak kosong
             if (string.IsNullOrEmpty(textBox1.Text))
             {
-                MessageBox.Show("Pilih data yang ingin dihapus terlebih dahulu dari tabel!", "Peringatan");
+                MessageBox.Show("Pilih data yang ingin dihapus!", "Peringatan");
                 return;
             }
 
-            // 2. Konfirmasi Hapus (Syarat UCP 1 & 2 tetap harus ada)
-            DialogResult dr = MessageBox.Show("Apakah Anda yakin ingin menghapus data ini via Stored Procedure?",
-                "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (dr == DialogResult.Yes)
+            if (MessageBox.Show("Yakin ingin menghapus data ini?", "Konfirmasi Hapus",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                Koneksi kon = new Koneksi();
-                MySqlConnection conn = kon.GetConn();
                 try
                 {
-                    conn.Open();
-                    // PANGGIL NAMA STORED PROCEDURE DELETE
-                    MySqlCommand cmd = new MySqlCommand("sp_hapus_pengumuman", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Masukkan parameter ID (Sesuai nama p_id di MySQL)
-                    cmd.Parameters.AddWithValue("p_id", textBox1.Text);
-
-                    // Eksekusi
-                    cmd.ExecuteNonQuery();
-
-                    MessageBox.Show("Data Berhasil Dihapus!", "Informasi");
-
-                    // 3. Refresh tampilan & Bersihkan Form
+                    pengumumanBLL.HapusPengumuman(Convert.ToInt32(textBox1.Text));
+                    MessageBox.Show("Data berhasil dihapus!", "Sukses");
                     TampilkanData();
                     BersihkanForm();
+                    HitungTotal();
                 }
                 catch (Exception ex)
                 {
-                    // Pesan error dari SIGNAL SQLSTATE di MySQL (jika ID tidak ditemukan) akan muncul di sini
-                    MessageBox.Show("Gagal Hapus: " + ex.Message, "Error Database");
-                }
-                finally
-                {
-                    conn.Close();
+                    MessageBox.Show(ex.Message, "Error");
                 }
             }
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            BersihkanForm();
-        }
-
-        private void btnSimpan_Click(object sender, EventArgs e)
-        {
-            DateTime hariIni = DateTime.Now.Date;
-            DateTime batasMax = DateTime.Now.AddYears(10);
-
-            if (dtpTanggal.Value.Date < hariIni)
-            {
-                MessageBox.Show("Masa lalu biarlah berlalu bre, pilih tanggal hari ini atau kedepan untuk pengumuman baru!",
-                                "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (dtpTanggal.Value.Date > batasMax)
-            {
-                MessageBox.Show("Maksimal 10 tahun kedepan bre!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            Koneksi kon = new Koneksi();
-    MySqlConnection conn = kon.GetConn();
-    try {
-        conn.Open();
-        MySqlCommand cmd = new MySqlCommand("sp_tambah_pengumuman", conn);
-        
-        cmd.CommandType = CommandType.StoredProcedure;
-
-        
-        cmd.Parameters.AddWithValue("p_judul", textBox3.Text);
-        cmd.Parameters.AddWithValue("p_isi", richTextBox1.Text);
-        cmd.Parameters.AddWithValue("p_status", comboBox1.Text);
-        cmd.Parameters.AddWithValue("p_id_admin", 1);
-
-        cmd.ExecuteNonQuery();
-        MessageBox.Show("Berhasil disimpan via Stored Procedure!");
-        TampilkanData();
-    } catch (Exception ex) {
-        // Pesan error 
-        MessageBox.Show(ex.Message);
-    } finally {
-        conn.Close();
-    }
-        }
-
+        // ====================== SEARCH & REFRESH ======================
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
             try
             {
-                conn.Open();
-                // 1. Panggil Nama Stored Procedure
-                MySqlCommand cmd = new MySqlCommand("sp_cari_pengumuman", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // 2. Masukkan parameter keyword
-                cmd.Parameters.AddWithValue("p_keyword", textBox2.Text);
-
-                // 3. Eksekusi dan tampilkan hasil ke DataGridView
-                MySqlDataReader dr = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(dr);
-
+                DataTable dt = pengumumanBLL.CariPengumuman(textBox2.Text.Trim());
                 dataGridView1.DataSource = dt;
-
-                // 4. Hitung hasil pencarian (Opsional untuk label total)
-                lblTotal.Text = "Ditemukan: " + dt.Rows.Count.ToString() + " data";
+                lblTotal.Text = $"Ditemukan: {dt.Rows.Count} data";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal Mencari: " + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show("Gagal mencari data: " + ex.Message);
             }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            TampilkanData(); // Menampilkan semua data lagi
-            HitungTotal();   // Mengupdate label total data
-            textBox2.Clear(); // Mengosongkan kotak pencarian agar bersih
-
-            MessageBox.Show("Daftar data telah di-reset ke semula.", "Informasi");
-
+            TampilkanData();
+            HitungTotal();
+            textBox2.Clear();
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void btnBersihkan_Click(object sender, EventArgs e)
         {
-
+            BersihkanForm();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.Rows.Count > 0)
-            {
-                SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", FileName = "Laporan_Mading.csv" };
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    string csv = "";
-                    foreach (DataGridViewColumn col in dataGridView1.Columns) csv += col.HeaderText + ",";
-                    csv += "\n";
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        foreach (DataGridViewCell cell in row.Cells) csv += cell.Value?.ToString() + ",";
-                        csv += "\n";
-                    }
-                    System.IO.File.WriteAllText(sfd.FileName, csv);
-                    MessageBox.Show("Laporan Berhasil Diunduh!");
-                }
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            // Jalankan query ke tabel riwayat_upload
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM riwayat_upload", conn);
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            dataGridView1.DataSource = dt; // Tabel berganti isi jadi riwayat
-            conn.Close();
-        }
-
+        // ====================== FITUR GAMBAR MADINGS ======================
         private void btnPilihGambar_Click(object sender, EventArgs e)
         {
-            // Filter agar hanya file gambar yang bisa dipilih
-            openFileDialog1.Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png";
-
+            openFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                // Menampilkan preview gambar di PictureBox
-                pbMading.Image = new Bitmap(openFileDialog1.FileName);
-
-                // Simpan alamat file di properti 'Tag' agar mudah dipanggil saat upload
-                pbMading.Tag = openFileDialog1.FileName;
+                try
+                {
+                    pbMading.Image = Image.FromFile(openFileDialog1.FileName);
+                    pbMading.Tag = openFileDialog1.FileName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal memuat preview gambar: " + ex.Message);
+                }
             }
         }
 
         private void btnUploadGambar_Click(object sender, EventArgs e)
         {
-            // Cek apakah sudah pilih gambar
             if (pbMading.Tag == null)
             {
                 MessageBox.Show("Silakan pilih gambar terlebih dahulu!", "Peringatan");
                 return;
             }
 
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Silakan klik pengumuman di tabel terlebih dahulu!", "Peringatan");
+                return;
+            }
 
             try
             {
-                conn.Open();
-
-                // Ambil path lengkap dari Tag
                 string pathLengkap = pbMading.Tag.ToString();
-                // Ambil nama filenya saja (misal: poster.jpg)
                 string namaFile = System.IO.Path.GetFileName(pathLengkap);
+                int idPengumuman = Convert.ToInt32(textBox1.Text);
 
-                // Query INSERT ke tabel gambar_mading
-                string query = "INSERT INTO gambar_mading (nama_file, path_file, tanggal_upload, id_admin) " +
-                               "VALUES (@nama, @path, @tgl, @admin)";
+                gambarBLL.UploadGambar(namaFile, pathLengkap, 1, idPengumuman);
 
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@nama", namaFile);
-                cmd.Parameters.AddWithValue("@path", pathLengkap);
-                cmd.Parameters.AddWithValue("@tgl", DateTime.Now);
-                cmd.Parameters.AddWithValue("@admin", 1); // Default admin ID
-
-                cmd.ExecuteNonQuery();
-
-                string queryLog = "INSERT INTO riwayat_upload (nama_file, tanggal_upload, id_admin) VALUES (@namaLog, @tglLog, 1)";
-                MySqlCommand cmdLog = new MySqlCommand(queryLog, conn);
-                cmdLog.Parameters.AddWithValue("@namaLog", namaFile);
-                cmdLog.Parameters.AddWithValue("@tglLog", DateTime.Now);
-                cmdLog.ExecuteNonQuery();
-
-                MessageBox.Show("Gambar Mading Berhasil Terdaftar di Sistem!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Reset preview setelah sukses
+                MessageBox.Show("Gambar berhasil diupload!", "Sukses");
                 pbMading.Image = null;
                 pbMading.Tag = null;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal Upload: " + ex.Message);
+                MessageBox.Show("Gagal upload gambar: " + ex.Message, "Error");
             }
-            finally
+        }
+
+        private void button2_Click(object sender, EventArgs e) // Lihat Riwayat Upload
+        {
+            try
             {
-                conn.Close();
+                DataTable dt = gambarBLL.GetRiwayatUpload();
+                dataGridView1.DataSource = dt;
+                lblTotal.Text = $"Total Riwayat: {dt.Rows.Count} data";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal menampilkan riwayat: " + ex.Message);
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        // ====================== CETAK LAPORAN CRYSTAL REPORTS ======================
+        private void btnCetakLaporan_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                FormFilterLaporan formFilter = new FormFilterLaporan();
+                formFilter.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal membuka laporan:\n" + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        // ====================== DOWNLOAD REPORT (CSV) ======================
+        private void button1_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("Tidak ada data untuk diunduh!", "Info");
+                return;
+            }
 
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "CSV File|*.csv",
+                FileName = $"Laporan_Mading_{DateTime.Now:yyyyMMdd}"
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string csv = "";
+                    foreach (DataGridViewColumn col in dataGridView1.Columns)
+                        csv += col.HeaderText + ",";
+
+                    csv += "\n";
+
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        foreach (DataGridViewCell cell in row.Cells)
+                            csv += (cell.Value?.ToString() ?? "") + ",";
+                        csv += "\n";
+                    }
+
+                    System.IO.File.WriteAllText(sfd.FileName, csv);
+                    MessageBox.Show("Laporan berhasil diunduh!", "Sukses");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal menyimpan file: " + ex.Message);
+                }
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -473,34 +323,146 @@ namespace MadingDigital
             this.Close();
         }
 
-        private void btnCariBahaya_Click(object sender, EventArgs e)
+        // ====================== EVENT JADWAL TAMPIL  ======================
+        private readonly JadwalTampilBLL jadwalBLL = new JadwalTampilBLL();
+
+        private void btnAturJadwal_Click_1(object sender, EventArgs e)
         {
-            Koneksi kon = new Koneksi();
-            MySqlConnection conn = kon.GetConn();
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Pilih pengumuman di tabel terlebih dahulu!", "Peringatan");
+                return;
+            }
+
             try
             {
-                conn.Open();
-               
-                string query = "SELECT * FROM v_tampil_pengumuman WHERE judul = '" + textBox2.Text + "'";
+                int idPengumuman = Convert.ToInt32(textBox1.Text);
+                DateTime tanggalMulai = dtpJadwalMulai.Value;
+                DateTime tanggalSelesai = dtpJadwalSelesai.Value;
 
-                MySqlDataAdapter da = new MySqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dataGridView1.DataSource = dt;
+                jadwalBLL.AturJadwal(idPengumuman, tanggalMulai, tanggalSelesai);
+
+                // Cek apakah jadwal aktif sekarang
+                bool aktif = jadwalBLL.CekJadwalAktif(idPengumuman);
+                string statusJadwal = aktif ? "AKTIF sekarang" : "belum aktif";
+
+                MessageBox.Show($"Jadwal berhasil diatur!\nStatus: {statusJadwal}", "Sukses");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        private void dtpTanggal_ValueChanged(object sender, EventArgs e)
+        private void btnLihatJadwal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = jadwalBLL.GetAllJadwal();
+                dataGridView1.DataSource = dt;
+                lblTotal.Text = $"Total Jadwal: {dt.Rows.Count} data";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat jadwal: " + ex.Message);
+            }
+
+        }
+
+        // ====================== EVENT HANDLER KOSONG ======================
+        private void label2_Click(object sender, EventArgs e) { }
+        private void label4_Click(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
+        private void labelIsi_Click(object sender, EventArgs e) { }
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void groupBox1_Enter(object sender, EventArgs e) { }
+        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e) { }
+        private void button2_Click_1(object sender, EventArgs e) { }
+        private void button4_Click(object sender, EventArgs e) { }
+        private void dtpTanggal_ValueChanged(object sender, EventArgs e) { }
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) { }
+        private void btnClear_Click(object sender, EventArgs e) { }
+        private void btnCariBahaya_Click(object sender, EventArgs e) { }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnBillboard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FormBillboard billboard = new FormBillboard();
+                billboard.Show();           // atau billboard.ShowDialog(); 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal membuka Billboard:\n" + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        // ====================== EVENT BILLBOARD ======================
+        private void btnBillboard_MouseEnter(object sender, EventArgs e)
+        {
+            btnBillboard.BackColor = Color.LimeGreen;     // Warna saat mouse di atas
+            btnBillboard.ForeColor = Color.Black;
+            btnBillboard.Font = new Font(btnBillboard.Font, FontStyle.Bold);
+        }
+
+        private void btnBillboard_MouseLeave(object sender, EventArgs e)
+        {
+            btnBillboard.BackColor = Color.DarkBlue;      // Kembali ke warna semula
+            btnBillboard.ForeColor = Color.White;
+            btnBillboard.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        // ====================== IMPORT EXCEL ======================
+        private void btnImportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog ofd = new OpenFileDialog() { Filter = "Excel Workbook|*.xlsx|Excel 97-2003 Workbook|*.xls", ValidateNames = true })
+                {
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        using (var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read))
+                        {
+                            using (var reader = ExcelReaderFactory.CreateReader(stream))
+                            {
+                                var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                                {
+                                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration() { UseHeaderRow = true }
+                                });
+
+                                DataTable dt = result.Tables[0];
+                                if (dt != null)
+                                {
+                                    // 1 = ID Admin default (misal admin utama)
+                                    pengumumanBLL.TambahBanyakPengumuman(dt, 1);
+                                    MessageBox.Show("Data berhasil diimport dari Excel!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    TampilkanData(); // Refresh grid
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal mengimport Excel:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
